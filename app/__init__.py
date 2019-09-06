@@ -34,6 +34,6 @@ def _db_create():
     db.connection()
 
 @app.teardown_request
-def _db_close():
+def _db_close(exec):
     if not db.is_closed():
         db.close()
