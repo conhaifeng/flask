@@ -11,8 +11,13 @@ from peewee import SqliteDatabase
 from flask import Flask
 
 from logging.handlers import RotatingFileHandler
-# db = SqliteDatabase("20190903")
-db = ""
+db = SqliteDatabase("20190903", pragmas={
+    "journal_mode":"wal",
+    "cache_size": -1 * 64000,
+    "ignore_check_constraints":0,
+    "synchronous":0
+})
+# db = ""
 
 app = Flask(__name__)
 app.config.from_object("config")
@@ -23,3 +28,12 @@ from app.views.user import user_service
 
 app.register_blueprint(auth)
 app.register_blueprint(user_service, url_prefix="/user")
+
+@app.before_request
+def _db_create():
+    db.connection()
+
+@app.teardown_request
+def _db_close():
+    if not db.is_closed():
+        db.close()
