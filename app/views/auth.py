@@ -12,9 +12,9 @@ from app.forms import LoginForm
 from app.utils.globle import *
 
 logger = logging.getLogger("sample1")
-auth = Blueprint("auth", __name__)
+auth_service = Blueprint("auth", __name__)
 
-@auth.route("/login", methods=["post"])
+@auth_service.route("/login", methods=["post"])
 def login():
     login_form = LoginForm()
 
@@ -26,7 +26,7 @@ def login():
     logger.info("Login success. username={}, password={}".format(login_form.phone.data, login_form.password.data))
     return JsonResult()
 
-@auth.route("/logout", methods=["get"])
+@auth_service.route("/logout", methods=["get"])
 @login_required
 def logout():
     pass

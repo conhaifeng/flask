@@ -17,16 +17,17 @@ db = SqliteDatabase("20190903", pragmas={
     "ignore_check_constraints":0,
     "synchronous":0
 })
-# db = ""
 
 app = Flask(__name__)
 app.config.from_object("config")
 logging.config.fileConfig(os.path.join(app.config.get("BASE_PATH"), "config", "log.conf"))
 
-from app.views.auth import auth
+from app.views.data import init_service
+from app.views.auth import auth_service
 from app.views.user import user_service
 
-app.register_blueprint(auth)
+app.register_blueprint(init_service, url_prefix="/db")
+app.register_blueprint(auth_service)
 app.register_blueprint(user_service, url_prefix="/user")
 
 @app.before_request

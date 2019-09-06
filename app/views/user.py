@@ -24,11 +24,14 @@ def add_user():
         logger.debug(error_msg)
         return JsonResult("2000", error_msg)
 
-    # if User.select().where(phone=user.phone.data):
-    #     return
-    #
-    # result = User.insert(username=user.username.data, password=user.password.data).execute()
-    logger.debug("add user successful. DB result is {}".format(0))
+    users = User.select().where(User.phone==user.phone.data)
+
+    if len(list(users)):
+        logger.info("Phone exsited. Add failed.")
+        return JsonResult("3000", "User exsited.")
+
+    result = User.insert(username=user.username.data, password=user.password.data, phone=user.phone.data).execute()
+    logger.info("add user successful. DB result is {}".format(result))
     return JsonResult()
 
 

@@ -10,7 +10,7 @@ from datetime import datetime
 class BaseModel(Model):
 
     class Meta:
-        database = ""
+        database = db
 
 class Role(BaseModel):
     id = AutoField()
@@ -22,9 +22,12 @@ class User(BaseModel):
     username = CharField(null=True)
     password = CharField()
     phone = CharField(max_length=11, unique=True)
-    role = ForeignKeyField(Role, field="id", backref="user")
     remark = CharField(null=True, max_length=100)
     created_time = DateTimeField(default=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
+class RoleUser(BaseModel):
+    role_id = ForeignKeyField(Role, field="id", backref="role_user")
+    user_id = ForeignKeyField(User, field="id", backref="role_user")
 
 class Post(BaseModel):
     id = AutoField()
