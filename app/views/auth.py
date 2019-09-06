@@ -19,8 +19,9 @@ def login():
     login_form = LoginForm()
 
     if not login_form.validate_on_submit():
-        logger.info("Login failed. username={}, password={}".format(login_form.phone.data, login_form.password.data))
-        return jsonify(Result(code="00001000", message="failed")._asdict())
+        error_msg = "Login failed. username={}, password={}".format(*login_form.error)
+        logger.info(error_msg)
+        return jsonify(Result(code="00001000", message=error_msg)._asdict())
 
     logger.info("Login success. username={}, password={}".format(login_form.phone.data, login_form.password.data))
     return jsonify(Result(code="000000", message="success")._asdict())

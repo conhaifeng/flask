@@ -13,19 +13,20 @@ from app.utils.globle import Result
 
 user_service = Blueprint("user", __name__)
 
-logger = logging.getLogger("werkzeug")
+logger = logging.getLogger("sample2")
 
 @user_service.route("/register", methods=["post"])
 def add_user():
     user = UserForm()
 
     if not user.validate_on_submit():
-        logger.debug("username or password is illegal.")
-        return jsonify(Result(code="2000", message="username or password illegal."))
+        error_msg = "{}:{}".format(*user.error)
+        logger.debug(error_msg)
+        return jsonify(Result(code="2000", message=error_msg)._asdict())
 
-    result = User.insert(username=user.username.data, password=user.password.data).execute()
+    # result = User.insert(username=user.username.data, password=user.password.data).execute()
     logger.debug("add user successful.")
-    return jsonify(Result(code="0000", message="success"))
+    return jsonify(Result(code="0000", message="success")._asdict())
 
 
 @user_service.route("/<userid>", methods=["put"])
