@@ -9,7 +9,7 @@ from flask import current_app as app, request, session, jsonify
 from flask.blueprints import Blueprint
 from app.forms import UserForm
 from app.models import User
-from app.utils.globle import Result
+from app.utils.globle import *
 
 user_service = Blueprint("user", __name__)
 
@@ -22,11 +22,14 @@ def add_user():
     if not user.validate_on_submit():
         error_msg = "{}:{}".format(*user.error)
         logger.debug(error_msg)
-        return jsonify(Result(code="2000", message=error_msg)._asdict())
+        return JsonResult("2000", error_msg)
 
+    # if User.select().where(phone=user.phone.data):
+    #     return
+    #
     # result = User.insert(username=user.username.data, password=user.password.data).execute()
-    logger.debug("add user successful.")
-    return jsonify(Result(code="0000", message="success")._asdict())
+    logger.debug("add user successful. DB result is {}".format(0))
+    return JsonResult()
 
 
 @user_service.route("/<userid>", methods=["put"])

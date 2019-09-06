@@ -4,5 +4,9 @@
 # @Author  : haifeng.hu
 
 from collections import namedtuple
+from flask import jsonify
 
 Result = namedtuple("result", ["code", "message"])
+
+def JsonResult(code="0000", message="success"):
+    return jsonify(Result(code, message)._asdict())

@@ -9,7 +9,7 @@ from flask import jsonify, current_app as app
 from flask.blueprints import Blueprint
 from flask_login import login_required
 from app.forms import LoginForm
-from app.utils.globle import Result
+from app.utils.globle import *
 
 logger = logging.getLogger("sample1")
 auth = Blueprint("auth", __name__)
@@ -19,13 +19,12 @@ def login():
     login_form = LoginForm()
 
     if not login_form.validate_on_submit():
-        error_msg = "Login failed. username={}, password={}".format(*login_form.error)
+        error_msg = "Login failed. {}:{}".format(*login_form.error)
         logger.info(error_msg)
-        return jsonify(Result(code="00001000", message=error_msg)._asdict())
+        return JsonResult("1000", error_msg)
 
     logger.info("Login success. username={}, password={}".format(login_form.phone.data, login_form.password.data))
-    return jsonify(Result(code="000000", message="success")._asdict())
-
+    return JsonResult()
 
 @auth.route("/logout", methods=["get"])
 @login_required

@@ -21,7 +21,7 @@ class User(BaseModel):
     id = AutoField()
     username = CharField(null=True)
     password = CharField()
-    phone = CharField(max_length=11)
+    phone = CharField(max_length=11, unique=True)
     role = ForeignKeyField(Role, field="id", backref="user")
     remark = CharField(null=True, max_length=100)
     created_time = DateTimeField(default=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
