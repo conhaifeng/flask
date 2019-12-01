@@ -8,4 +8,4 @@ from app import app
 if __name__ == "__main__":
 
     # app = create_app()
-    app.run(port=8083)
+    app.run(host="127.0.0.1",port=8083, debug=True)

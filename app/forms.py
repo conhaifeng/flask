@@ -28,8 +28,12 @@ class BaseForm(FlaskForm):
         return (error_field, error_msg)
 
 class LoginForm(BaseForm):
-    phone = StringField("phone", [InputRequired(), Regexp("^1([38]\d|5[0-35-9]|7[3678])\d{8}$")])
+    # phone = StringField("phone", [InputRequired(), Regexp("^1([38]\d|5[0-35-9]|7[3678])\d{8}$")])
+    username = StringField("username", [InputRequired()])
     password = PasswordField("password", [InputRequired()])
+
+
+
 
 class UserForm(BaseForm):
     username = StringField("username", [InputRequired(), Length(5, 20)])

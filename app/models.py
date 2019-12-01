@@ -3,8 +3,9 @@
 # @Time    : 2019/9/2 19:44
 # @Author  : haifeng.hu
 
+from flask_login import UserMixin
 from peewee import *
-from app import db
+from app.extensions import db
 from datetime import datetime
 
 class BaseModel(Model):
@@ -12,12 +13,13 @@ class BaseModel(Model):
     class Meta:
         database = db
 
+
 class Role(BaseModel):
     id = AutoField()
     role_name = CharField(40)
     privilege = CharField()
 
-class User(BaseModel):
+class User(BaseModel, UserMixin):
     id = AutoField()
     username = CharField(null=True)
     password = CharField()
