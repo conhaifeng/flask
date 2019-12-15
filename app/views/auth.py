@@ -9,6 +9,7 @@ from flask import jsonify, current_app as app
 from flask.blueprints import Blueprint
 # from flask_login import login_required
 from flask_login import login_required, login_user, logout_user
+from playhouse.shortcuts import model_to_dict
 from app.forms import LoginForm
 from app.utils.globle import *
 from app.models import User
@@ -31,11 +32,12 @@ def login():
 
     login_user(user)
     logger.info("Login success. username={}, password={}".format(login_form.username.data, login_form.password.data))
-    return JsonResult()
+    return JsonResult(data=model_to_dict(user, exclude=[User.password, User.id, User.remark]))
 
 @auth_service.route("/logout", methods=["get"])
 @login_required
 def logout():
+    logger.info("User logout")
     logout_user()
     return JsonResult()
 
