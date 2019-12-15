@@ -7,9 +7,9 @@ import logging
 
 from flask import current_app as app, request, session, jsonify
 from flask.blueprints import Blueprint
-from flask_login import login_required
+from flask_login import login_required,current_user
 from app.forms import UserForm
-from app.models import User
+from app.models import User, RoleUser, Role
 from app.utils.globle import *
 
 user_service = Blueprint("user", __name__)
@@ -45,4 +45,39 @@ def update_user(userid):
 @user_service.route("/<userid>", methods=["get"])
 @login_required
 def query_user(userid):
-    return JsonResult()
+    user = User.get_or_none(userid)
+    if user :
+        return JsonResult(data=user)
+
+    return JsonResult(Status.FAILED, "No such user.")
+
+@user_service.route("/", methods=['get'])
+@login_required
+def query_users():
+    users = User.select(User, Role.role_name).join(RoleUser).join(Role).dicts()
+    return JsonResult(data=list(users))
+
+@user_service.route("/permission", methods=['get'])
+@login_required
+def query_perssion():
+    roles = RoleUser.select(Role.role_name).join(Role).where(RoleUser.user_id == current_user.id).objects()
+    result = {}
+    for role in roles :
+        result["role"] = role.role_name
+        return JsonResult(data=result)
+
+    return JsonResult(Status.FAILED, "Query role failed.")
+
+@user_service.route("/password", methods=['post'])
+@login_required
+def change_passowrd():
+    user = User.get_by_id(current_user.id)
+    if user.password != request.json['oldPassword']:
+        return JsonResult(Status.FAILED, "Old password not equal.")
+
+    if request.json['newPassword'] != request.json['newPasswordAG']:
+        return JsonResult(Status.FAILED, "New password not equal.")
+
+    user.password = request.json["newPassword"]
+    user.save()
+    return JsonResult(Status.SUCCESS, "Success.")
