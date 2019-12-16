@@ -10,7 +10,8 @@ db = SqliteDatabase("20190903", pragmas={
     "journal_mode":"wal",
     "cache_size": -1 * 64000,
     "ignore_check_constraints":0,
-    "synchronous":0
+    "synchronous":0,
+    "foreign_keys":1
 })
 
 login_manager = LoginManager()
