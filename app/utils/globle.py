@@ -7,7 +7,7 @@ from collections import namedtuple
 from flask import jsonify
 from enum import Enum
 
-Result = namedtuple("result", ["code", "message"])
+Result = namedtuple("result", ["code", "message", "data"])
 
 
 class Status(Enum):
@@ -17,8 +17,8 @@ class Status(Enum):
     EXISTED = "3000"
 
 
-def JsonResult(code=Status.SUCCESS.value, message="success"):
+def JsonResult(code=Status.SUCCESS.value, message="success", data=''):
     if type(code) == Status:
         code = code.value
 
-    return jsonify(Result(code, message)._asdict())
+    return jsonify(Result(code, message, data)._asdict())
