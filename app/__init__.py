@@ -15,7 +15,7 @@ from app.utils.globle import JsonResult, Status
 
 app = Flask(__name__)
 app.config.from_object("config")
-CORS(app, max_age=1728000)
+CORS(app, max_age=3600, origins="http://127.0.0.1:8080", supports_credentials=True)
 logging.config.fileConfig(os.path.join(app.config.get("BASE_PATH"), "config", "log.conf"))
 
 from app.views.data import init_service
@@ -26,7 +26,7 @@ from app.views.index import ok_service
 
 app.register_blueprint(init_service, url_prefix="/db")
 app.register_blueprint(auth_service)
-app.register_blueprint(user_service, url_prefix="/user")
+app.register_blueprint(user_service, url_prefix="/users")
 app.register_blueprint(alert_service, url_prefix="/alert")
 app.register_blueprint(ok_service)
 
