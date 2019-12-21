@@ -11,6 +11,6 @@ ok_service = Blueprint("ok", __name__)
 def ok():
     return "ok"
 
-@ok_service.route("/ok1")
+@ok_service.route("/ok2")
 def ok():
-    return "ok1"
+    return "ok2"
