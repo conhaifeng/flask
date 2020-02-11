@@ -4,6 +4,7 @@
 # @Author  : haifeng.hu
 
 import logging
+import time
 
 from flask import jsonify, current_app as app
 from flask.blueprints import Blueprint

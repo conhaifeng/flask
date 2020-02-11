@@ -32,9 +32,6 @@ class LoginForm(BaseForm):
     username = StringField("username", [InputRequired()])
     password = PasswordField("password", [InputRequired()])
 
-
-
-
 class UserForm(BaseForm):
     username = StringField("username", [InputRequired(), Length(5, 20)])
     phone = StringField("phone", [InputRequired(), Regexp("^1([38]\d|5[0-35-9]|7[3678])\d{8}$")])

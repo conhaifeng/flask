@@ -44,7 +44,3 @@ class Point(BaseModel):
     userid = ForeignKeyField(User, field="id", backref="point")
     point = IntegerField()
     update_time = DateTimeField()
-
-
-
-

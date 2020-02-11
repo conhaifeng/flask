@@ -44,7 +44,7 @@ def update_user(userid):
 
 @user_service.route("/<userid>", methods=["get"])
 @login_required
-def query_user(userid):
+def get_user_by_id(userid):
     user = User.get_or_none(userid)
     if user :
         return JsonResult(data=user)
@@ -53,20 +53,20 @@ def query_user(userid):
 
 @user_service.route("/", methods=['get'])
 @login_required
-def query_users():
+def get_users():
     users = User.select(User, Role.role_name).join(RoleUser).join(Role).dicts()
     return JsonResult(data=list(users))
 
-@user_service.route("/permission", methods=['get'])
+@user_service.route("/userInfo", methods=['get'])
 @login_required
-def query_perssion():
-    roles = RoleUser.select(Role.role_name).join(Role).where(RoleUser.user_id == current_user.id).objects()
-    result = {}
-    for role in roles :
-        result["role"] = role.role_name
-        return JsonResult(data=result)
+def get_user_by_session():
+    users = User.select(User.phone, User.username, Role.role_name.alias('roles')).join(RoleUser).join(Role).where(User.id == current_user.id).dicts()
 
-    return JsonResult(Status.FAILED, "Query role failed.")
+    user = list(users)
+    if (len(user)):
+        return JsonResult(Status.SUCCESS, data=user[0])
+
+    return JsonResult(Status.FAILED, "Query userInfo failed.")
 
 @user_service.route("/password", methods=['post'])
 @login_required

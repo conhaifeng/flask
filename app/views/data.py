@@ -34,3 +34,13 @@ def init_data():
     admin = {"role_name": "admin", "privilege": "all"}
 
     Role.insert_many([visitor, user, admin]).execute()
+
+
+@init_service.route('/it', methods=['get'])
+def insert_db():
+    user_id = User.insert(username="admin", password="123456", phone="18766666004").execute()
+    role = Role.get(Role.role_name == "admin")
+    RoleUser.insert(role_id=role.id, user_id=user_id).execute()
+    return JsonResult()
+
+
