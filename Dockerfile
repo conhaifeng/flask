@@ -13,10 +13,10 @@ RUN pip3 install --upgrade pip
 RUN pip3 install gunicorn
 
 COPY ./requirements.txt /usr/src/app/requirements.txt
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 EXPOSE 5000
 
 # copy project
 COPY . /usr/src/app/
-ENTRYPOINT ['gunicorn', '--config', 'config/gunicorn.conf', 'flask:app']
+ENTRYPOINT ["gunicorn", "--config", "config/gunicorn.conf.py", "flask:app"]
