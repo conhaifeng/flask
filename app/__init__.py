@@ -22,13 +22,13 @@ logging.config.fileConfig(os.path.join(app.config.get("BASE_PATH"), "config", "l
 from app.views.data import init_service
 from app.views.auth import auth_service
 from app.views.user import user_service
-from app.views.alert import alert_service
+# from app.views.alert import alert_service
 from app.views.index import ok_service
 
 app.register_blueprint(init_service, url_prefix="/db")
 app.register_blueprint(auth_service)
 app.register_blueprint(user_service, url_prefix="/users")
-app.register_blueprint(alert_service, url_prefix="/alert")
+# app.register_blueprint(alert_service, url_prefix="/alert")
 app.register_blueprint(ok_service)
 
 login_manager.init_app(app)
