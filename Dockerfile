@@ -20,6 +20,10 @@ EXPOSE 5000
 
 # copy project
 COPY . /usr/src/app/
-mkdir -p logs/access.log
+
+# mk log file for gunicorn
+RUN mkdir logs
+RUN touch logs/access.log
+RUN touch logs/error.log
 
 ENTRYPOINT ["gunicorn", "--config", "config/gunicorn.conf.py", "app:app", "--preload"]

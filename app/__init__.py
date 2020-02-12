@@ -15,7 +15,7 @@ from app.utils.globle import JsonResult, Status
 
 app = Flask(__name__)
 app.config.from_object("config")
-app.config.from_json("conf.json")
+# app.config.from_json("conf.json")
 CORS(app, max_age=3600, origins=app.config.get("CORS_ORIGIN"), supports_credentials=True)
 logging.config.fileConfig(os.path.join(app.config.get("BASE_PATH"), "config", "log.conf"))
 
