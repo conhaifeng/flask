@@ -2,6 +2,7 @@
 FROM python:3.8-alpine
 
 # set work directory
+
 WORKDIR /usr/src/app
 
 # set environment variables
@@ -19,4 +20,6 @@ EXPOSE 5000
 
 # copy project
 COPY . /usr/src/app/
-ENTRYPOINT ["gunicorn", "--config", "config/gunicorn.conf.py", "flask:app"]
+mkdir -p logs/access.log
+
+ENTRYPOINT ["gunicorn", "--config", "config/gunicorn.conf.py", "app:app", "--preload"]
