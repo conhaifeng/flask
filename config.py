@@ -9,4 +9,5 @@ import os
 SECRET_KEY = "1234567890abcd"
 WTF_CSRF_ENABLED  = False
 BASE_PATH = os.path.dirname(os.path.realpath(__file__))
-CORS_ORIGIN = "http://127.0.0.1:8080"
+# CORS_ORIGIN = "http://127.0.0.1:8080"
+CORS_ORIGIN = "*"

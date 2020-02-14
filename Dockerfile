@@ -16,7 +16,7 @@ RUN pip3 install gunicorn
 COPY ./requirements.txt /usr/src/app/requirements.txt
 RUN pip3 install -r requirements.txt
 
-EXPOSE 5000
+EXPOSE 6000
 
 # copy project
 COPY . /usr/src/app/
