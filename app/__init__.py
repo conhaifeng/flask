@@ -12,6 +12,7 @@ from flask_cors import CORS
 from app.extensions import login_manager, db
 from app.models import User
 from app.utils.globle import JsonResult, Status
+from app.initializer import init_db
 
 app = Flask(__name__)
 app.config.from_object("config")
@@ -41,9 +42,14 @@ def load_user(user_id) :
 def unauthrized_user():
     return JsonResult(Status.FAILED, "Unauthrized.")
 
+@app.before_first_request
+def _init_db():
+    init_db()
+
 @app.before_request
 def _db_create():
-    db.connect()
+    if db.is_closed():
+        db.connect()
 
 @app.teardown_request
 def _db_close(exec):
